@@ -1,21 +1,31 @@
 version: '3.4'
 
 services:
-  pocrabbitmq:
-    image: ${DOCKER_REGISTRY-}pocrabbitmq
+  publisher:
+    image: ${DOCKER_REGISTRY-}publisher
     build:
       context: .
-      dockerfile: POCRabbitMQ/Dockerfile
+      dockerfile: Publisher/Dockerfile
+    ports: 
+        - "5000:80"
+        - "443:443"
     depends_on: 
         - "rabbitmq"
-
+    networks:
+        - rabbit-network
+  
   rabbitmq:
-      container_name: localrabbitpoc
-      image: rabbitmq:3-management
-      restart: always
-      ports: 
-          - "5672:5672"
-          - "15672:15672"
-      environment: 
-          RABBITMQ_DEFAULT_USER: admin
-          RABBITMQ_DEFAULT_PASS: admin
+    image: rabbitmq:3-management
+    restart: always
+    ports: 
+        - "5672:5672"
+        - "15672:15672"
+    environment: 
+        RABBITMQ_DEFAULT_USER: admin
+        RABBITMQ_DEFAULT_PASS: admin
+    networks:
+        - rabbit-network
+ 
+networks: 
+    rabbit-network:
+        driver: bridge

@@ -2,7 +2,7 @@ version: '3'
 
 services:
     pocrabbit:
-        container_name: pocrabbit
+        container_name: pocrabbit2
         build:
             context: .
             dockerfile: Dockerfile
@@ -13,7 +13,7 @@ services:
             - "rabbitmq"
     
     rabbitmq:
-        container_name: localrabbitpoc
+        container_name: localrabbitpoc2
         image: rabbitmq:3-management
         restart: always
         ports: 
